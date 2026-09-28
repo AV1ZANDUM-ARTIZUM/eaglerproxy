@@ -6,11 +6,15 @@ import { Config } from "./launcher_types.js";
 
 const env = process.env;
 
+const tlsKey = env.EAGLER_TLS_KEY;
+const tlsCert = env.EAGLER_TLS_CERT;
+const tlsEnabled = env.EAGLER_TLS === "true" || (!!tlsKey && !!tlsCert);
+
 export const config: Config = {
   adapter: {
     name: "EaglerProxy",
     bindHost: env.EAGLER_BIND_HOST || "0.0.0.0",
-    bindPort: Number(env.EAGLER_BIND_PORT || 8080),
+    bindPort: Number(env.EAGLER_BIND_PORT || (tlsEnabled ? 443 : 8080)),
     maxConcurrentClients: Number(env.EAGLER_MAX_CLIENTS || 20),
     useNatives: env.EAGLER_USE_NATIVES !== "false",
     skinServer: {
@@ -45,6 +49,12 @@ export const config: Config = {
       host: env.EAGLER_UPSTREAM_HOST || "127.0.0.1",
       port: Number(env.EAGLER_UPSTREAM_PORT || 25568),
     },
-    tls: undefined,
+    tls: tlsEnabled && tlsKey && tlsCert
+      ? {
+          enabled: true,
+          key: tlsKey,
+          cert: tlsCert,
+        }
+      : undefined,
   },
 };
