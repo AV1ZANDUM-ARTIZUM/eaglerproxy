@@ -102,3 +102,10 @@ As of right now, there exists no API reference. Please refer to the preinstalled
   - Bug description
   - Affected versions
   - Reproduction steps (optional if you can't find)
+
+
+## Blockbender bridge
+
+A Blockbender bridge setup is included in [BLOCKBENDER.md](./BLOCKBENDER.md). It uses EaglerProxy as the EaglercraftX 1.8.9 endpoint and ViaProxy as the Minecraft protocol translation layer, so EaglerProxy does not have to pretend that a 1.8.9 packet stream is a modern Minecraft stream.
+
+The EaglerProxy upstream can now be configured with EAGLER_UPSTREAM_HOST and EAGLER_UPSTREAM_PORT; the Blockbender setup defaults to 127.0.0.1:25568, where ViaProxy is expected to listen.
