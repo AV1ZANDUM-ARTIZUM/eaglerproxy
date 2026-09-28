@@ -20,6 +20,28 @@ This assumes that you have [Node.js](https://nodejs.org/en) LTS or higher instal
 4. Compile the TypeScript code into normal JavaScript code (`tsc`).
 5. Go into the `build` directory, and run `node index.js`.
 
+### WSS / HTTPS
+
+EaglerProxy now supports native **WSS (`wss://`)** connections. Set these environment variables on the machine running the proxy:
+
+```bash
+EAGLER_TLS=true
+EAGLER_TLS_KEY=/path/to/privkey.pem
+EAGLER_TLS_CERT=/path/to/fullchain.pem
+EAGLER_BIND_HOST=0.0.0.0
+EAGLER_BIND_PORT=443
+```
+
+When TLS is enabled, the proxy creates an HTTPS server and accepts the Eaglercraft WebSocket upgrade over that same TLS connection. Your public Eaglercraft address is then:
+
+```
+wss://YOUR-DOMAIN/
+```
+
+You need a valid TLS certificate whose hostname matches `YOUR-DOMAIN`. Do not commit private keys or certificates containing private key material to GitHub. A reverse proxy such as Caddy or nginx can also terminate TLS and forward to the EaglerProxy's normal HTTP/WebSocket port.
+
+For local/non-TLS use, leave `EAGLER_TLS` unset and the proxy continues to listen on `ws://` using port 8080 by default.
+
 ### Important: For non-traditional runtime environments
 
 For the most part, this proxy (and its dependencies) transpiles to pure JavaScript, and does not require anything more than a full implementation of the Node.js API (with the exception of node-gyp/native support). _Crypto support is required for the proxy to run._  
@@ -95,14 +117,13 @@ As of right now, there exists no API reference. Please refer to the preinstalled
 
 ## Reporting Issues
 
-**NOTE:** Issues asking for help will be converted into discussions. You are expected to have **thoroughly** read all documentation prior to asking for help, and expect no help if you have not done so.
+**NOTE:** Issues asking for help will be converted to discussions. You are expected to have **thoroughly** read all documentation prior to asking for help, and expect no help if you have not done so.
 
 - Security-related bugs/issues: Directly contact me on Discord (check my profile).
 - Non-security-related bugs/issues: Open a new issue, with the following:
   - Bug description
   - Affected versions
   - Reproduction steps (optional if you can't find)
-
 
 ## Blockbender bridge
 
