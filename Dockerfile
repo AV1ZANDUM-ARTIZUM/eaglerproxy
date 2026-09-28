@@ -3,7 +3,7 @@ FROM node:22-bookworm-slim
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install --omit=dev && npm install --no-save typescript
+RUN npm install --omit=dev && npm install --no-save typescript@5.9.3
 
 COPY . .
 
